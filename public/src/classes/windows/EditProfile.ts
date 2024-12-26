@@ -36,7 +36,7 @@ export default class EditProfile extends Window {
         // set the preview to the user's pfp
         this.init!.$('.preview').setProperty(
             "backgroundImage", 
-            `url("${($(".profile .metadata .pfp").e as HTMLImageElement).src}")`
+            `url("${($(".profile .metadata .pfp").e as HTMLImageElement).src.replace("mid", "original")}")`
         );
         this.init!.on("submit", (e) => e.preventDefault());
         this.bindAction("#save", this.submitData.bind(this));
@@ -110,6 +110,8 @@ export default class EditProfile extends Window {
         for (const key in this.profile) {
             if (key == "picture") continue;
             data[key as keyof ProfileEditShema] = this.init?.$(`#${key}`).value || "";
+
+            if (!(this.init.$(`#${key}`).e as HTMLInputElement).validity.valid) return;
         }
 
         data.picture = this.profile.picture || "";

@@ -21,6 +21,8 @@ interface ProfileEditShema {
     email: mail
 }
 
+// TODO: implement the github storage provider ASAP.
+
 export default function EditProfile (): RequestHandler {
     return async (req, res) => {
         try {
@@ -35,6 +37,11 @@ export default function EditProfile (): RequestHandler {
                     res.sendStatus(406);
                     return;
                 }
+            }
+
+            if (body.email && !/(\w)@(\w).(\w)/i.test(body.email)) {
+                res.sendStatus(406);
+                return;
             }
 
             if (body.picture) {
@@ -101,7 +108,7 @@ async function handleProfilePicture (data: string) {
     if (!result.accepted) {
         winston.error(new Error("Couldn't process image because " + result.reason));
         return false;
-    };
+    }
 
     return name;
 }
