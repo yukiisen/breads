@@ -158,7 +158,7 @@ app.use(reqLogger());
 
 // TODO: Move this to top.
 // check and remove outdated browsers
-app.use(browserCheck());
+//app.use(browserCheck());
 
 // !important
 // Any "use", "post" or "get" function below is a separate route from now on.
