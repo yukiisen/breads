@@ -93,12 +93,12 @@ async function handleProfilePicture (data: string) {
     if (!type) return false;
 
     const name = generateRandomName();
-    const filename = `${name}.${type[1]}`;
+    //const filename = `${name}.${type[1]}`;
     const buff = Buffer.from(data.split(',')[1], "base64");
 
-    await fs.writeFile(`./temp/${filename}`, buff);
+    //await fs.writeFile(`./temp/${filename}`, buff);
 
-    const result = await handleProfileUpload(filename);
+    const result = await handleProfileUpload(buff, name);
     
     if (!result.accepted) {
         winston.error(new Error("Couldn't process image because " + result.reason));
@@ -106,7 +106,7 @@ async function handleProfilePicture (data: string) {
     };
 
     // remove the temp image.
-    fs.unlink(`./temp/${filename}`).catch(e => winston.error(e));
+    //if (config.UPLOADS.removeTempFiles) fs.unlink(`./temp/${filename}`).catch(e => winston.error(e));
 
     return name;
 }

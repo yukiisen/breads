@@ -22,7 +22,8 @@
         "postedImageLimit": "8mb",
         "postedImageSafeLimit": 5000000,
         "postedVideosLimit": "10mb",
-        "removeUnusedPFPs": true
+        "removeUnusedPFPs": true,
+        "removeTempFiles": true
     },
 
     "IMAGES": {
