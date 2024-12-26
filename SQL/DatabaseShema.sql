@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     `password` VARCHAR(100) NOT NULL,
     `name` VARCHAR(30) NOT NULL DEFAULT "Bread",
     `verified` BIT NOT NULL DEFAULT 0,
-    `picture` VARCHAR(32) NOT NULL DEFAULT "mainimage",
+    `picture` CHAR(38) NOT NULL DEFAULT "mainimage",
     -- wether the image was uploaded into github for external storage xD
     `github` BIT NOT NULL DEFAULT 0,
     `bio` VARCHAR(150) NULL,

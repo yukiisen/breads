@@ -1,12 +1,14 @@
 import { RequestHandler } from "express";
 import { BV } from "../../middlewares/validateBody";
 import { handleProfileUpload } from "../../lib/mediaManager";
+import { _availableName } from "../nameavailable";
 
 import database from "../../lib/database";
 import qp from "../../lib/sqlParser";
 import winston from "../../lib/logger";
 import crypto from "crypto";
 import fs from "fs/promises";
+import config from "../../config.json";
 
 type mail = string
 type base64 = string
@@ -26,6 +28,14 @@ export default function EditProfile (): RequestHandler {
             // this is used to remove the old image from the database, otherwise it's submitted again to it.
             const [ pfp ] = await database.query<RowDataPackets<{ picture: string }>>(qp.query("GetProfilePicture"), [ user.id ]);
             
+            if (body.username && body.username !== user.username) {
+                const taken = await _availableName(body.username);
+                if (taken) {
+                    res.sendStatus(406);
+                    return;
+                }
+            }
+
             if (body.picture) {
                 const name = await handleProfilePicture(req.body.picture);
                 if (name == false) { 
@@ -47,6 +57,8 @@ export default function EditProfile (): RequestHandler {
 
             if (result.changedRows == 1) {
                 res.sendStatus(200);
+                // removes the old profile picture from the storage.
+                if (config.UPLOADS.removeUnusedPFPs && !!body.picture) removeOldProfile(pfp[0].picture);
             } else {
                 res.sendStatus(500);
             }
@@ -93,5 +105,17 @@ async function handleProfilePicture (data: string) {
         return false;
     };
 
+    // remove the temp image.
+    fs.unlink(`./temp/${filename}`).catch(e => winston.error(e));
+
     return name;
+}
+
+async function removeOldProfile(name: string) {
+    if (name == "mainimage") return;
+    const paths = ['original', 'min', 'mid'].map(e => `./uploads/profiles/${e}/${name}.webp`);
+    
+    paths.forEach(path => {
+        fs.unlink(path).catch(e => winston.error(e));
+    });
 }

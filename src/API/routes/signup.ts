@@ -10,7 +10,7 @@ import { QS } from "../../dbqueries";
 import { BV } from "../../middlewares/validateBody";
 
 export default function signup(): RequestHandler {
-    return async (req: BRequest<BodyTypes.singupInput>, res, next) => {
+    return async (req: BRequest<BodyTypes.singupInput>, res) => {
         try {
             const validInput = await validateInput(req.body);
             if (!validInput) {res.sendStatus(406); return;};

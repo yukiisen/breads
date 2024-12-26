@@ -14,7 +14,8 @@
         "profilePictureLimit": "10mb",
         "postedImageLimit": "8mb",
         "postedImageSafeLimit": 5000000,
-        "postedVideosLimit": "10mb"
+        "postedVideosLimit": "10mb",
+        "removeUnusedPFPs": false
     },
 
     "IMAGES": {

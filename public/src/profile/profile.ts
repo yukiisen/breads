@@ -46,7 +46,7 @@ class App extends AppComponent {
         };
 
         // this function only displays the dialog in the page, remove it after testing.
-        tests(this);
+        //tests(this);
     }
 
     async getUserPosts (username: string): Promise<UserPosts> {
