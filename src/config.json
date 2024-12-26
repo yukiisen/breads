@@ -10,7 +10,7 @@
     },
 
     "WINSTON": {
-        "info": false,
+        "info": true,
         "log": true,
         "error": true,
         "warn": true
