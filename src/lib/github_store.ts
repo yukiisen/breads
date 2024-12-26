@@ -41,8 +41,6 @@ export async function uploadFile (options: GitHubUploadOptions) {
         console.log(res);
     } catch (err) {
         winston.error(<Error>err);
-    } finally {
-        return;
     }
 }
 
