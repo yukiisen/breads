@@ -9,6 +9,13 @@
         ]
     },
 
+    "WINSTON": {
+        "info": false,
+        "log": true,
+        "error": true,
+        "warn": true
+    },
+
     "UPLOADS": {
         "resizePostedImages": false,
         "profilePictureLimit": "10mb",

@@ -4,6 +4,8 @@ import moment from "moment";
 import { createWriteStream, readFileSync, existsSync, writeFileSync } from "fs";
 import EventEmitter from "events";
 
+import config from "../config.json";
+
 let Fconsole: Console;
 
 type winstonEventMap = { "init": [] }
@@ -33,6 +35,7 @@ namespace winston {
     }
 
     export function info (message: unknown) {
+        if (!config.WINSTON.info) return;
         const time = `[${moment().format('HH:mm:ss')}]`;
 
         let msg = message;

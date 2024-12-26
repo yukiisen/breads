@@ -158,6 +158,7 @@ app.use(reqLogger());
 
 // TODO: Move this to top.
 // check and remove outdated browsers
+
 //app.use(browserCheck());
 
 // !important

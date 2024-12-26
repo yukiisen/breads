@@ -27,7 +27,7 @@ export default function postGetter (): RequestHandler {
 }
 
 /** @throws an error when one of the queries fails. make sure to add proper error handling */
-async function getUserPosts (username: string, { id, username: name }: LoggedUser) {
+async function getUserPosts (username: string, { id, username: name }: LoggedUser = { id: -1, username: "", password: "" }) {
     const [ RawPosts ] = await database.query<RowDataPackets<RawPost>>(qp.query("getUserPosts"), [username, id, id]);
     if (RawPosts.length == 0) return [];
     const ids = RawPosts.map(e => e.id);
