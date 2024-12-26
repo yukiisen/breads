@@ -9,6 +9,7 @@ import winston from "../../lib/logger";
 import crypto from "crypto";
 import fs from "fs/promises";
 import config from "../../config.json";
+import { uploadFile } from "../../lib/github_store";
 
 type mail = string
 type base64 = string
