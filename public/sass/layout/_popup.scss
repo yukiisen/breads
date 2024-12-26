@@ -1,0 +1,65 @@
+@use "../helpers/index" as *;
+
+.popups {
+    width: 100%;
+    height: 100%;
+    background-color: #0008;
+    position: absolute;
+    @include centering;
+
+    > div {
+        @include shadow;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .alert {
+        @include centering;
+
+        background-color: #f2f2f2;
+        width: 30%;
+        flex-direction: column;
+
+        h1 {
+            text-align: center;
+        }
+
+        button {
+            font-size: 16px;
+            width: 30%;
+            margin-top: 10px;
+        }
+    }
+    
+    &, > div {
+        animation: {
+            direction: normal;
+            timing-function: cubic-bezier(0.46, 1.01, 0.73, 1.18);
+        };
+        
+        transition-duration: 200ms;
+        display: none;
+    }
+}
+
+@keyframes pop {
+    from {
+        scale: 1;
+        opacity: 1;
+    }
+
+    to {
+        scale: 0.9;
+        opacity: 0;
+    }
+}
+
+@keyframes opop {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}

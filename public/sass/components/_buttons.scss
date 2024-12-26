@@ -1,0 +1,34 @@
+@use "../helpers/index" as *;
+
+$buttonTypes: "button", "submit", "reset";
+
+%actionButton {
+    background-color: $accent;
+    color: #ddd;
+
+    &:hover {
+        background-color: lighten($accent, 4.5);
+    }
+}
+
+%normalButton {
+    $bgcol: #ddd;
+
+    padding: 5px 20px;
+    background-color: $bgcol;
+    border-radius: 2px;
+
+    &:hover {
+        background-color: lighten($bgcol, 3);
+    }
+}
+
+@each $type in $buttonTypes {
+    input[type=#{$type}], button {
+        @extend %normalButton;
+    }
+
+    input[type=#{$type}].action, button.action {
+        @extend %actionButton;
+    }
+}

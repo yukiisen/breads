@@ -1,0 +1,21 @@
+form(method="post").window.alter-profile
+    h1 Edit Your Profile
+    .image 
+        input#imagePicker(type="file", accept=".png, .jpg, .webp, .avif, .jpeg, .svg, .gif", style="display: none;")
+        span.preview: span: img(src="/svg/picture.svg", alt="")
+    .name 
+        h2 Name: 
+        .username
+            input#username(type="text", placeholder="Enter a new username", required)
+            label(for="username") This name is not available!
+        input#name(type="text", placeholder="Enter a new name")
+    .bio 
+        h2 Bio:
+        textarea#bio(placeholder="Enter your bio")
+    .mail 
+        h2 Email:
+        input#email(type="email", placeholder="Enter your new email")
+
+    .buttons 
+        button.action#save(type="submit") Save changes
+        button#verify Verify your account

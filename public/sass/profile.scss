@@ -1,0 +1,219 @@
+@use "./layout/index";
+@use "./helpers/index" as *;
+@use "./components/buttons" as *;
+@use "./components/postbtn" as *;
+@use "./components/navbar";
+@use "./components/post";
+
+.profile {
+    padding: 0px;
+    justify-content: flex-start;
+    &.notfull { min-height: calc(100% - 40px);}
+
+    > section {
+        display: flex;
+        width: 100%;
+        margin-top: 5px;
+        padding: 0 10px;
+    }
+
+    .metadata {
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 20px 20px 10px;
+
+        .namex {
+            margin: {
+                left: 10px;
+            };
+            h2 {
+                font-size: 36px;
+            }
+
+            p {
+                transform: translateY(-10px);
+            }
+        }
+
+        .verifiedMark {
+            width: 27px;
+            transform: translateY(3px);
+        }
+
+        > img {
+            width: 15%;
+            min-width: 120px;
+        }
+    }
+
+    .bio {
+        
+        margin-bottom: 5px;
+        pre {
+            font-size: 18px;
+            width: 100%;
+            //border-bottom: 1px solid #555;
+        }
+    }
+
+    .social_info {
+        * {
+            margin-right: 10px;
+        }
+    }
+
+    .control {
+        button {
+            width: 50%;
+            margin: 5px;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: transparent;
+            border: 1px solid #777;
+        }
+
+        #edit {
+            width: 100%;
+        }
+
+        #follow {
+            @extend %actionButton;
+        }
+    }
+
+    .tabs {
+        @include basicUl;
+
+        margin-top: 5px;
+        width: 100%;
+
+        li {
+            width: calc(100%);
+            text-align: center;
+            padding: 7px;
+            user-select: none;
+
+            border-bottom: 2px solid #b9b9b9;
+            font-weight: 500;
+            color: #b9b9b9;
+            
+            &.current {
+                border-bottom: 2px solid #000;
+                color: #000;
+            }
+        }
+    }
+
+    .posts {
+        flex-direction: column;
+        padding: 0;
+
+        .post:not(.reposted) {
+            box-shadow: none;
+            border-bottom: 1px solid #000;
+            border-radius: 0;
+            margin: 0px 2% 8px;
+
+            &:last-child {
+                border-bottom-left-radius: 15px;
+                border-bottom-right-radius: 15px;
+                border: none;
+            }
+        }
+    }
+}
+
+.dialogues .window.alter-profile {
+    display: flex;
+    flex-direction: column;
+    width: max(450px, 30%);
+    overflow: auto;
+    max-height: 95%;
+    align-items: center;
+
+    h2 {
+        font-size: 19px;
+        width: 100%;
+    }
+
+    h1 {
+        width: fit-content;
+    }
+
+    > * {
+        width: 85%;
+        justify-content: space-between;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
+    input, textarea {
+        font-size: 16px;
+        width: 100%;
+        padding: 2px 5px;
+        margin-bottom: 3px;
+    }
+
+    textarea {
+        height: 156px;
+    }
+
+    input[type="text"], .username {
+        width: 49%;
+    }
+
+    .username {
+        input[type="text"] {
+            width: 100%;
+        }
+
+        label {
+            font-size: 14px;
+            color: $warning;
+        }
+    }
+
+    .buttons {
+        justify-content: space-between;
+        margin-top: 10px;
+
+        button {
+            font-size: 16px;
+            padding: 10px;
+            width: 49%;
+        }
+    }
+
+    .image {
+        justify-content: center;
+
+        .preview {
+            display: block;
+            width: 45%;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+
+            > span {
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                border-radius: 50%;
+                background-color: #0008;
+                display: block;
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                padding: 33%;
+            }
+
+            &:hover span {
+                opacity: 1;
+            }
+        }
+    }
+}

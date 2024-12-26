@@ -1,0 +1,40 @@
+doctype html
+html(lang="en")
+    head
+        include layouts/head
+        link(rel="stylesheet", href="/css/profile.css")
+    body 
+        section.dialogues
+        include components/postbtn
+        include layouts/navbar
+        section.container
+            .titleBar Profile
+            section.profile.component-con.container
+                section.metadata
+                    .namex 
+                        h2= profile.name
+                            if profile.verified
+                                img.verifiedMark(src="/svg/verified.svg")
+                        p @#{profile.username}
+                    img(src="/media/profiles/mid/#{profile.picture}").pfp
+                section.bio 
+                    pre= profile.bio
+                section.social_info 
+                    span.followers #{bigNumToString(profile.followers)} Followers
+                    span.followings #{bigNumToString(profile.followings)} Followings
+                section.control 
+                    if mine 
+                        button#edit Edit profile
+                    else
+                        button#follow Follow
+                        button#dm Direct Message
+                ul.tabs
+                    li.current Breads
+                    li Replies
+                    li Reposts
+                section.content.posts
+                    //- Include posts here
+        script(src="/modules/runtime.js")
+        script(src="/modules/moment.min.js")
+        script(src="/dist/profile/profile.js", type="module")
+        

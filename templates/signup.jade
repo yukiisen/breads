@@ -1,0 +1,39 @@
+doctype html
+html(lang="en")
+    head
+        include layouts/head
+        link(rel="stylesheet", href="/css/login.css")
+    body 
+        section.popups
+            include components/windows/alert
+        section.form 
+            .bg 
+                .mark
+                    img(src="/images/bread.webp", width="200px", alt="logo")
+                    h1 Breads.io
+                    p Your bread wherever you go!
+            form(method="post")
+                .title
+                    h1 Sign up
+                    p Create a new breads account
+                .inputs
+                    label(for="username") Username:
+                    input#username(type="text", placeholder="Enter a username", required, name="username", maxlength="30")
+                    span.error#wn inavailable username!
+
+                    label(for="password") Password:
+                    input#password(type="password", placeholder="Enter password", required, name="password", maxlength="100")
+                    span.error#wp password error!
+
+                    label(for="re-password") Re-enter password:
+                    input#re-password(type="password", placeholder="Enter password", required, name="re-password", maxlength="100") 
+                    span.error#dp different password!
+
+                    label(for="mail") Add your e-mail (optional):
+                    input#mail(type="email", placeholder="Enter your email", name="mail", maxlength="50")
+
+                    input(type="submit", value="Sign up").action
+                span.stnc Already have an account? 
+                    a.action(href="login") Log in
+        script(src="/modules/zxcvbn.js") 
+        script(src="/dist/signup.js", type="module")

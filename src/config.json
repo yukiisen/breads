@@ -1,0 +1,49 @@
+{
+    "LOGGER": {
+        "EXCLUDEDROUTES": [
+            "/API/nameavailable",
+            "/media/uploads/",
+            "/media/profiles/",
+            "/src/",
+            "/sass/"
+        ]
+    },
+
+    "UPLOADS": {
+        "resizePostedImages": false,
+        "profilePictureLimit": "10mb",
+        "postedImageLimit": "8mb",
+        "postedImageSafeLimit": 5000000,
+        "postedVideosLimit": "10mb"
+    },
+
+    "IMAGES": {
+        "min": 56,
+        "mid": 144
+    },
+
+    "STORAGE_PROVIDER": "github",
+
+    "PROVIDERS": {
+        "GitHub": {
+            "UPLOAD_FILES": false,
+            "UPLOAD_CONFIG": {
+                "USERNAME": "yukiisen",
+                "REPOSITORY": "breads_store",
+                "TOKEN": "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"
+            }
+        },
+
+        "Drive": {
+            "UPLOAD_FILES": false,
+            "login_info": {
+                "email": "",
+                "password": ""
+            }
+        }
+    },
+
+    "SESSIONSECRETS": [
+        "3c566f8272806a5c563f8db7ebb1cb8c1d75b795e03692de9d9b537d07b70419"
+    ]
+}

@@ -1,0 +1,12 @@
+sudo lpm i @types/bcrypt --save-dev
+sudo lpm i @types/compression --save-dev
+sudo lpm i @types/express --save-dev
+sudo lpm i @types/express-session --save-dev
+sudo lpm i @types/jade --save-dev
+sudo lpm i @types/multer --save-dev
+sudo lpm i @types/node --save-dev
+sudo lpm i @types/passport --save-dev
+sudo lpm i @types/passport-local --save-dev
+sudo lpm i @types/passport-strategy --save-dev
+sudo lpm i @types/zxcvbn --save-dev
+sudo lpm i source-map-support --save-dev

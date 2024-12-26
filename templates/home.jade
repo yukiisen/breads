@@ -1,0 +1,36 @@
+doctype html
+html(lang="en")
+    head
+        include layouts/head
+        link(rel="stylesheet", href="/css/home.css")
+    body 
+        include components/postbtn
+        include layouts/navbar
+        section.container 
+            section.container.feed 
+                ul.feeds 
+                    li#fyou.current For you
+                    li#following Following
+                    li#liked Liked
+                    li#saved Saved
+                    li#new New
+                    li#trending Trending
+
+                section.create-parent
+                    include components/create_post
+
+                section.posts 
+                    //- include components/post
+                        include components/post
+                        include components/post
+                        include components/post
+                        include components/post
+                        include components/post
+                        include components/post
+                        include components/post
+                        include components/post
+                        include components/post
+                        include components/post
+                        include components/post
+
+                section#bottom

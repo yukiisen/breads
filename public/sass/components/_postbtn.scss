@@ -1,0 +1,36 @@
+@use "../helpers/index" as *;
+
+.add-post-btn {
+
+    @include centering;
+    @include shadow;
+    background-color: white;
+    border-radius: 10px;
+
+    $width: 90px;
+    $height: 55px;
+    $padding: 15px;
+
+    width: $width;
+    height: $height;
+
+    margin: $padding;
+
+    z-index: 2;
+    position: absolute;
+
+    bottom: 0;
+    right: 0;
+    /* left: calc(100% - $width - $padding);
+    top: calc(100% - $height - $padding); */
+
+    &:hover {
+        background-color: darken($color: white, $amount: 5);
+    }
+
+    svg {
+        stroke: black;
+        width: 30px;
+        height: 30px;
+    }
+}

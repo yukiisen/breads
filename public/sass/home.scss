@@ -1,0 +1,31 @@
+@use "./layout/index";
+@use "./helpers/index" as *;
+@use "./components/index" as components;
+@use "./components/navbar";
+@use "./components/post";
+@use "./components/create_post_m";
+
+body > .container {
+    .feed {
+        width: 45%;
+        flex-direction: column;
+
+        .feeds {
+            @include centering;
+            list-style-type: none;
+            width: 100%;
+            min-width: 500px;
+
+            li {
+                margin: 0 10px;
+                border-bottom: 4px solid transparent;
+                border-radius: 5px;
+                user-select: none;
+
+                &:hover, &.current {
+                    border-color: #333;
+                }
+            }
+        }
+    }
+}

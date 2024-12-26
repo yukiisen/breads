@@ -1,0 +1,60 @@
+@use "../helpers/index" as *;
+
+.navbar {
+    @include centering;
+    flex-direction: column;
+    justify-content: space-between;
+    //border: 1px solid black;  
+
+    padding: 15px 5px;
+    width: 4.5%;
+    min-width: 60px;
+
+    svg {
+        width: 35px;
+        height: 35px;
+        padding: 6px;
+    }
+
+    .logo {
+        width: 45px;
+    }
+
+    ul {
+        list-style-type: none;
+        width: 100%;
+
+        li {
+            margin: 5px 0;
+            //border: 1px solid black;  
+            width: 100%;
+            border-radius: 5px;
+            overflow: hidden;
+
+            &.current {
+                background-color: #ccc;
+
+                svg {
+                    fill: black;
+                }
+            }
+
+            &:hover {
+                background-color: #ddd;
+                &.current {
+                    background-color: #ccc;
+                }
+            }
+
+            svg {
+                fill: none;
+            }
+
+            a {
+                display: block;
+                padding: 5px 0;
+                @include centering;
+            }
+        }
+    }
+}

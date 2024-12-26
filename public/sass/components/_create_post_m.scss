@@ -1,0 +1,27 @@
+@use "../helpers/mixins" as *;
+
+.create-post {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    width: 100%;
+
+    padding: 10px 15px;
+    margin: 10px 10px 0;
+
+    box-shadow: 0 0 2px;
+    border-radius: 8px;
+
+    background-color: white;
+
+    .pfp {
+        width: 40px;
+    }
+}
+
+.create-parent {
+    width: 100%;
+    min-width: 500px;
+    @include centering
+}

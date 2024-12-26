@@ -1,0 +1,119 @@
+@use "../helpers/index" as *;
+
+.posts {
+    width: 100%;
+    min-width: 500px;
+    display: block;
+}
+
+.post {
+    border-radius: 8px; 
+    box-shadow: 0 0 2px;
+    background-color: #fff;
+    margin: 10px;
+    display: flex;
+    align-items: flex-start;
+    padding: {
+        right: 20px;
+        left: 15px;
+        top: 15px;
+        bottom: 8px;
+    };
+
+    > .pfp {
+        min-width: 40px;
+        max-width: 40px;
+        height: 40px;
+        margin-right: 10px;
+    }
+
+    .content {
+        width: 100%;
+    }
+
+    .interactions {
+        margin-top: 8px;
+        .left {
+            display: flex;
+        }
+
+        .like svg:first-child {
+            fill: none;
+            stroke: black;
+            stroke-width: .5px;
+        }
+    }
+
+    a {
+        text-decoration: none;
+    }
+    
+
+    .interact {
+        @include centering;
+        //border: 1px solid black;
+        padding: 1px 5px;
+        margin-right: 20px;
+        user-select: none;
+
+        &:hover {
+            background-color: #eaeaea;
+            border-radius: 3px;
+        }
+
+        &:last-child {
+            margin: 0;
+        }
+
+        .count {
+            font-size: 14px;
+            margin-left: 5px;
+            position: relative;
+            top: 1px;
+        }
+    }
+
+    .info, .interactions {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .info {
+        .name {
+            font: {
+                weight: 900;
+                size: 18px;
+            };
+            margin-right: 5px;
+        }
+    }
+
+    svg {
+        width: 15px;
+        height: 15px;
+    }
+
+    .data {
+        display: flex;
+        flex-direction: column;
+
+        .images {
+            max-width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            //overflow: hidden;
+        }
+
+        img:not(.pfp) {
+            max-width: 49%;
+            margin: {
+                right: 3px;
+                top: 3px;
+            };
+
+            width: min-content;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+    }
+}

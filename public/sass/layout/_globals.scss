@@ -1,0 +1,67 @@
+@use "../helpers/index" as *;
+//@use "./fonts" as *;
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: baloo, "segoe ui";
+    border: none;
+    box-sizing: border-box;
+	scroll-behavior: smooth;
+    color: #000;
+    transition-duration: 200ms;
+}
+
+h1 {
+    font-size: 32px;
+}
+.container {
+    @include centering;
+}
+
+body{
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    background-color: $background;
+    overflow: hidden;
+}
+
+input {
+    &:focus{
+        outline: none;
+    }
+}
+
+span.error {
+    color: lighten($color: red, $amount: 2);
+    font-size: 14px;
+    display: none;
+}
+
+p {
+    font-size: 18px;
+}
+
+svg {
+    max-width: 60px;
+    max-height: 60px;
+}
+
+.pfp {
+    border-radius: 50%;
+    overflow: hidden;
+    @include centering;
+
+    img {
+        width: 100%;
+        aspect-ratio: 1/1;
+    }
+}
+
+textarea, input, textarea:focus {
+    outline: none;
+    resize: none;
+    background-color: darken($background, 2);
+    border: 1px solid darken($background, 15);
+}

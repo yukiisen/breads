@@ -1,0 +1,31 @@
+doctype html
+html(lang="en")
+    head
+        include layouts/head
+        link(rel="stylesheet", href="/css/login.css")
+    body 
+        section.popups
+            include components/windows/alert
+        section.form 
+            form(method="post", autocomplete="on")
+                .title
+                    h1 Log in 
+                    p Enter your informations below to log in 
+                .inputs
+                    label(for="username") Username:
+                    input#username(type="text", placeholder="Enter your username", name="username", required)
+                    span.error incorrect username!
+                    label(for="password") Password:
+                    input#password(type="password", placeholder="Enter password", name="password", required) 
+                    span.error incorrect password!
+                    input(type="submit", value="Log in").action
+                span.stnc Don't have an account? 
+                    a.action(href="signup") Create an Account 
+            
+            .bg 
+                .mark    
+                    img(src="/images/bread.webp", width="200px", alt="logo")
+                    h1 Breads.io
+                    p Your bread wherever you go!
+        script(src="/modules/zxcvbn.js") 
+        script(src="/dist/login.js", type="module")
