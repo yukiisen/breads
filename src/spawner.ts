@@ -1,5 +1,4 @@
 import "source-map-support/register";
-
 import cluster, { Worker } from "cluster";
 import os from "os";
 
@@ -12,7 +11,6 @@ const workers: Worker[] = [];
 for (let i = 0; i < os.cpus().length; i++) {
     spawnOne();
 }
-
 
 function spawnOne () {
     workers.unshift(cluster.fork());
