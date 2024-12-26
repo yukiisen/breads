@@ -15,6 +15,7 @@ type returnMethod = { accepted: boolean; reason?: string | undefined; }
  * should create a cropped image with a size based on the ```config.json``` file and original size.
  * */ 
 export async function handleProfileUpload(filename: Buffer, newName: string): Promise<returnMethod>
+export async function handleProfileUpload(filename: string, newName?: string): Promise<returnMethod>
 export async function handleProfileUpload (filename: string | Buffer, newName?: string): Promise<returnMethod> {
     if (typeof filename !== "string" && !newName) return { accepted: false, reason: "invalid input" };
     

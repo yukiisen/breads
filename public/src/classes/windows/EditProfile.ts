@@ -124,8 +124,8 @@ export default class EditProfile extends Window {
             }
         });
 
-        console.log(res.status, res.statusText);
-
-        // IMPORTANT: check if the username is unique before sending to the server.
+        if (res.status == 200) {
+            
+        } else { location.reload() }
     }
 }
