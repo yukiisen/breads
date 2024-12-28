@@ -18,19 +18,20 @@ interface ProfileEditShema {
     name: string
     picture: base64
     bio: string | null
-    email: mail
+    email: mail,
+    github?: boolean
 }
 
 // TODO: implement the github storage provider ASAP.
-
+// Done but I probably need to upload the min and mid images too.
 export default function EditProfile (): RequestHandler {
     return async (req, res) => {
         try {
             const user = req.user as LoggedUser;
             const body = req.body as ProfileEditShema;
             // this is used to remove the old image from the database, otherwise it's submitted again to it.
-            const [ pfp ] = await database.query<RowDataPackets<{ picture: string }>>(qp.query("GetProfilePicture"), [ user.id ]);
-            
+            const [ oldData ] = await database.query<RowDataPackets<{ picture: string, github: Buffer }>>(qp.query("GetProfilePicture"), [ user.id ]);
+
             if (body.username && body.username !== user.username) {
                 const taken = await _availableName(body.username);
                 if (taken) {
@@ -45,13 +46,13 @@ export default function EditProfile (): RequestHandler {
             }
 
             if (body.picture) {
-                const name = await handleProfilePicture(req.body.picture);
-                if (name == false) { 
+                const imageHandle = await handleProfilePicture(req.body.picture);
+                if (imageHandle == false) { 
                     res.sendStatus(415);
                     return;
                 }
 
-                body.picture = name;
+                body.picture = imageHandle.name;
             }
             
             const [ result ] = await database.query<OkPacket>(qp.query("EditProfile"), [ 
@@ -59,14 +60,15 @@ export default function EditProfile (): RequestHandler {
                 body.name || null, 
                 body.bio || null, 
                 body.email || null,
-                body.picture || pfp[0].picture,
+                body.picture || oldData[0].picture,
+                body.github || !!oldData[0].github.at(0),
                 user.id
             ]);
 
             if (result.changedRows == 1) {
                 res.sendStatus(200);
                 // removes the old profile picture from the storage.
-                if (config.UPLOADS.removeUnusedPFPs && !!body.picture) removeOldProfile(pfp[0].picture);
+                if (config.UPLOADS.removeUnusedPFPs && body.picture) removeOldProfile(oldData[0].picture);
             } else {
                 res.sendStatus(500);
             }
@@ -110,7 +112,17 @@ async function handleProfilePicture (data: string) {
         return false;
     }
 
-    return name;
+    if (config.STORAGE_PROVIDER == "github" && config.PROVIDERS.GitHub.UPLOAD_FILES) {
+        const uploadsuccess = await uploadFile({
+            file: buff,
+            filename: name,
+            dir: 'profiles'
+        });
+
+        return { name, external: uploadsuccess };
+    } else {
+        return { name, external: false };
+    }
 }
 
 async function removeOldProfile(name: string) {

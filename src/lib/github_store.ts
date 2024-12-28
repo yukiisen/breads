@@ -3,6 +3,7 @@ import winston from "./logger";
 import axios from "axios";
 import db from "./database";
 import fs from "fs";
+import path from "path";
 import { query } from "./sqlParser";
 
 const config = appConfig as appConfig;
@@ -24,7 +25,7 @@ if (config.STORAGE_PROVIDER !== 'GitHub') {
 
 export async function uploadFile (options: GitHubUploadOptions) {
     try {
-        const url = `https://api.github.com/repos/${UPLOAD_CONFIG.USERNAME}/${UPLOAD_CONFIG.REPOSITORY}/contents/${options.dir || ''}${options.filename}`;
+        const url = path.join(`https://api.github.com/repos/${UPLOAD_CONFIG.USERNAME}/${UPLOAD_CONFIG.REPOSITORY}/contents/`, `${path.join(options.dir || '', options.filename)}`);
         const body = {
             message: 'A new Upload!',
             content: options.file.toString("base64")
@@ -37,10 +38,13 @@ export async function uploadFile (options: GitHubUploadOptions) {
             }
         });
 
+        // FIXME: add rejection handling.
         winston.info(`File ${options.filename} was succesfully uploaded!`);
-        console.log(res);
+
+        return true;
     } catch (err) {
         winston.error(<Error>err);
+        return false;
     }
 }
 

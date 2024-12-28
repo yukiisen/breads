@@ -14,9 +14,9 @@ SELECT email FROM users WHERE id=?;
 --END_QUERY
 
 --GetProfilePicture => QUERY:
-SELECT picture FROM users WHERE id=?;
+SELECT picture, github FROM users WHERE id=?;
 --END_QUERY
 
 --EditProfile => QUERY:
-UPDATE users SET username=?, name=?, bio=?, email=?, picture=? WHERE id=?;
+UPDATE users SET username=?, name=?, bio=?, email=?, picture=?, github=? WHERE id=?;
 --END_QUERY
