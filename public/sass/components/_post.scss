@@ -88,6 +88,17 @@
         }
     }
 
+    .menu svg {
+        padding: 5px;
+        width: 24px;
+        height: 24px;
+        border-radius: 3px;
+
+        &:hover {
+            background-color: #eaeaea;
+        }
+    }
+
     svg {
         width: 15px;
         height: 15px;

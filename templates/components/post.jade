@@ -1,9 +1,9 @@
 .post 
-    a(href="#").pfp: img(src="/media/profiles/min/#{post.profile}", alt="")
+    a(href="/profile/#{post.username}").pfp: img(src="/media/profiles/min/#{post.profile}", alt="")
     .content 
         .info 
             .left
-                a(href="#").name= post.name
+                a(href="/profile/#{post.username}").name= post.name
                     if post.verified
                         img.verifiedMark(src="/svg/verified.svg")
                 span.username @#{post.username}

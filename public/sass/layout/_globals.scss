@@ -52,6 +52,7 @@ svg {
     border-radius: 50%;
     overflow: hidden;
     @include centering;
+    border: 1px solid black;
 
     img {
         width: 100%;

@@ -1,6 +1,5 @@
 import { $, _$ } from "../lib/dom";
 import { createGetURL } from "../lib/helpers";
-import { url } from "../lib/url";
 
 import { AppComponent } from "../classes/Component";
 import { WindowManager } from "../classes/WindowManager";
