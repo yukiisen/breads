@@ -195,6 +195,8 @@ export function $ (selector: string | HTMLElement) {
     
 }
 
+$.exists = (selector: string) => Boolean(document.querySelector(selector));
+
 $.ready = function (listener: () => void) {
     window.addEventListener("DOMContentLoaded", listener);
 }

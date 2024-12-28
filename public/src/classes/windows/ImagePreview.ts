@@ -1,4 +1,4 @@
-import { Init } from "../../lib/dom";
+import { $, Init } from "../../lib/dom";
 import { Window } from "../WindowManager";
 
 export default class ImagePreview extends Window {
@@ -8,7 +8,8 @@ export default class ImagePreview extends Window {
     OnPop() {}
 
     RenderComponent() {
-        return {};
+        const { src } = <HTMLImageElement>$(".profile img.pfp").e
+        return { src };
     }
     
     PostRender() {}
@@ -17,5 +18,5 @@ export default class ImagePreview extends Window {
 
 type PreviewTemplate = { src: string }
 function PreviewTemplate (options: PreviewTemplate) {
-    return (`<img src="${options.src}" class="pfp"></img>`);
+    return (`<img src="${options.src.replace(/(min|mid)/i, "original")}" class="pfp preview window"></img>`);
 }

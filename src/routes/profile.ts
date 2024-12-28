@@ -38,9 +38,10 @@ export function UserProfileRoute (): RequestHandler {
 }
 
 export function OtherProfileRoute (): RequestHandler {
-    return async (req, res) => {
+    return async (req, res, next) => {
         const user = <LoggedUser>req.user;
         const { username } = req.params;
+        if (user.username == username) return UserProfileRoute()(req, res, next);
         try {
             // check if the user is blocked
             const [ blocked ] = await database.query<RowDataPackets>(qp.query('isBlocked'), [ username, user.id ]);

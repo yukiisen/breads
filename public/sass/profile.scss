@@ -123,6 +123,13 @@
     }
 }
 
+.dialogues .window.pfp {
+    padding: 0;
+    margin: 0;
+    border-radius: 50%;
+    height: 70%;
+}
+
 .dialogues .window.alter-profile {
     display: flex;
     flex-direction: column;

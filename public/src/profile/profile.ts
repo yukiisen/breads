@@ -8,6 +8,7 @@ import { ProfileEvents } from "./events";
 
 import Post from "../classes/Post";
 import EditProfile from "../classes/windows/EditProfile";
+import ImagePreview from "../classes/windows/ImagePreview";
 
 class App extends AppComponent {
     readonly postsContainer = $(".posts");
@@ -44,9 +45,12 @@ class App extends AppComponent {
     initializeWindowManager () {
         const EditProfileWindow = this.WindowManager.CreateWindow(new EditProfile);
         this.tokens.push(["editprofile", EditProfileWindow]);
-        if (url.current(["/profile/", "/profile"])) { 
-            this.bindAction('#edit', () => { this.WindowManager.display(EditProfileWindow) }) 
-        };
+        const ImagePreviewWindow = this.WindowManager.CreateWindow(new ImagePreview);
+        this.tokens.push(["pfpPreview", ImagePreviewWindow]);
+
+
+        this.bindAction(".profile .pfp", () => this.WindowManager.display(ImagePreviewWindow));
+        if ($.exists("#edit")) this.bindAction('#edit', () => { this.WindowManager.display(EditProfileWindow) });
     }
 
     async getUserPosts (username: string): Promise<UserPosts> {
