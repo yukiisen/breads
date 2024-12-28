@@ -19,7 +19,7 @@ export abstract class Component {
     private BindingList: BindingList = [];
     protected abstract parent?: Init
 
-    constructor (private template: TemplateFunction, private updateRate: number = 5) {}
+    constructor (private readonly template: TemplateFunction, private updateRate: number = 5) {}
 
 
     // TODO: implement auto unsubscribe to prevent memory leaks.

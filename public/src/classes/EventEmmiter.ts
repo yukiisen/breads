@@ -35,4 +35,3 @@ export default class EventEmmiter<M extends EventEmmiterMap> {
         }
     }
 }
-

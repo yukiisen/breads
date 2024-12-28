@@ -32,6 +32,7 @@ namespace API {
         picture: string
         email: string
         verified: boolean
+        github: boolean
     }
 }
 

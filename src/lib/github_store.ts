@@ -19,7 +19,7 @@ interface GitHubUploadOptions {
     file: Buffer
 }
 
-if (config.STORAGE_PROVIDER !== 'GitHub') {
+if (config.STORAGE_PROVIDER.toLowerCase() !== 'github') {
     winston.warn("Github isn't your main storage provider, please make sure you enable it!");
 }
 

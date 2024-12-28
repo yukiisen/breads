@@ -115,7 +115,7 @@ async function handleProfilePicture (data: string) {
     if (config.STORAGE_PROVIDER == "github" && config.PROVIDERS.GitHub.UPLOAD_FILES) {
         const uploadsuccess = await uploadFile({
             file: buff,
-            filename: name,
+            filename: name.concat(".webp"),
             dir: 'profiles'
         });
 

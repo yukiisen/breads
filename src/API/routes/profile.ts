@@ -17,7 +17,8 @@ export default function ProfileAPIRoute(): RequestHandler {
                 bio: data.bio,
                 picture: data.picture,
                 email: (await database.query<RowDataPackets<{ email: string }>>(qp.query("GetUserEmail"), [ user.id ]))[0][0]?.email,
-                verified: data.verified
+                verified: data.verified,
+                github: data.github
             }
 
             res.json(resBody);

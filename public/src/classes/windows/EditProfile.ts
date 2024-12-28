@@ -2,6 +2,7 @@ import EditProfileComponent from "../../../templates/edit-profile";
 
 import { $ } from "../../lib/dom";
 import { createGetURL } from "../../lib/helpers";
+import { ProfileEvents } from "../../profile/events";
 import { Window } from "../WindowManager";
 
 export default class EditProfile extends Window {
@@ -48,49 +49,61 @@ export default class EditProfile extends Window {
     }
 
     async onUsername (name: string) {
-        if (name == this.profile.username) {
-            this.allowed = true;
-            this.init!.$(".username label").display(false);
-            return;
-        }
-
-        const res = await fetch(createGetURL("/API/nameavailable", { name }));
-
-        if (res.status !== 200) {
-            this.allowed = false;
-            this.init!.$(".username label").display(false);
-            return;
-        }
-
-        const { exists } = await res.json();
-
-        if (!exists) {
-            this.allowed = true;
-            this.init!.$(".username label").display(false);
-        } else {
-            this.allowed = false;
-            this.init!.$(".username label").display(true);
+        try {
+            if (name == this.profile.username) {
+                this.allowed = true;
+                this.init!.$(".username label").display(false);
+                return;
+            }
+    
+            const res = await fetch(createGetURL("/API/nameavailable", { name }));
+    
+            if (res.status !== 200) {
+                this.allowed = false;
+                this.init!.$(".username label").display(false);
+                return;
+            }
+    
+            const { exists } = await res.json();
+    
+            if (!exists) {
+                this.allowed = true;
+                this.init!.$(".username label").display(false);
+            } else {
+                this.allowed = false;
+                this.init!.$(".username label").display(true);
+            }
+        } catch (error) {
+            console.error(error);
+            this.close();
         }
     }
 
     async fetchData () {
-        const res = await fetch("/API/profile");
-        const resBody: API.ProfileData = await res.json();
+        try {
+            const res = await fetch("/API/profile");
+            const resBody: API.ProfileData = await res.json();
+            
+            if (res.status !== 200) return;
 
-        this.profile = {
-            username: resBody.username,
-            name: resBody.name,
-            picture: undefined,
-            email: resBody.email,
-            bio: resBody.bio
+            this.profile = {
+                username: resBody.username,
+                name: resBody.name,
+                picture: undefined,
+                email: resBody.email,
+                bio: resBody.bio
+            }
+    
+            this.init!.$("#username").value = (this.profile.username);
+            this.init!.$("#name").value = (this.profile.name);
+            this.init!.$("#bio").value = (this.profile.bio || "");
+            this.init!.$("#email").value = (this.profile.email);
+    
+            if (resBody.verified) this.init?.$("#verify").text("Account Verified").e.setAttribute("disabled", "");
+        } catch (error) {
+            console.error(error);
+            this.close();
         }
-
-        this.init!.$("#username").value = (this.profile.username);
-        this.init!.$("#name").value = (this.profile.name);
-        this.init!.$("#bio").value = (this.profile.bio || "");
-        this.init!.$("#email").value = (this.profile.email);
-
-        if (resBody.verified) this.init?.$("#verify").text("Account Verified").e.setAttribute("disabled", "");
     }
 
     onFileChange (files: FileList | null) {
@@ -118,16 +131,24 @@ export default class EditProfile extends Window {
 
         const req = JSON.stringify(data);
 
-        const res = await fetch("/API/profile", {
-            method: "PATCH",
-            body: req,
-            headers: {
-                'content-type': 'application/json',
-            }
-        });
-
-        if (res.status == 200) {
+        try {
+            const res = await fetch("/API/profile", {
+                method: "PATCH",
+                body: req,
+                headers: {
+                    'content-type': 'application/json',
+                }
+            });
             
-        } else { location.reload() }
+            if (res.status == 200) {
+                ProfileEvents.emit("profile.update");
+                this.close();
+            } else { 
+                location.reload();
+            }
+        } catch (error) {
+            console.error(error);
+            this.close();
+        }
     }
 }

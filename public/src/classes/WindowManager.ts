@@ -5,27 +5,31 @@ import { Component, TemplateFunction } from "./Component";
 // TODO: hopefully, if you consider coming back one day, 
 // please write some comments because I don't understand a shit even though I just wrote this now.
 export class WindowManager {
-    private windows: [symbol, Window][] = [];
+    private windows = new Map<symbol, Window>();
     private activeWindow: Window | null = null;
     constructor (private parent: Init = $("section.dialogues"), private animationDuration: number = 200) {
         this.parent.setProperty("animationDuration", this.animationDuration + 'ms');
         this.parent.on("click", ({ target }) => {
             if (target === this.parent.e) {
-                this.activeWindow!.init?.toggleClass('visible');
-                setTimeout(() => {
-                    this.hideParent(); 
-                    this.activeWindow!.remove(); 
-                    this.activeWindow = null; 
-                }, animationDuration - 50);
+                this.closeCurrent();
             }
         });
+    }
+
+    closeCurrent () {
+        this.activeWindow!.init?.toggleClass('visible');
+        setTimeout(() => {
+            this.hideParent(); 
+            this.activeWindow!.remove(); 
+            this.activeWindow = null; 
+        }, this.animationDuration - 50);
     }
 
     private showParent () { this.parent.class = ["visible"] }
     private hideParent () { this.parent.e.classList.remove('visible') }
 
     display (token: symbol) {
-        const window = (this.windows.find(([ id ]) => id === token) || [])[1];
+        const window = this.windows.get(token);
         if (!window) return false;
         window.render(this.parent);
         if (!window.rendered) throw new Error("Window not rendered!");
@@ -36,14 +40,17 @@ export class WindowManager {
         return true;
     }
 
-    CreateWindow <T extends Window>(window: T): symbol {
+    CreateWindow (window: Window): symbol {
         const windowIdentifier = Symbol();
-        this.windows.push([windowIdentifier, window]);
+        window.close = this.closeCurrent.bind(this);
+        this.windows.set(windowIdentifier, window);
         return windowIdentifier;
     }
 }
 
 export abstract class Window extends Component {
+    close!: Function;
+
     constructor (template: TemplateFunction) {
         super(template);
     }

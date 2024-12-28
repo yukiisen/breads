@@ -1,9 +1,10 @@
-import { $ } from "../lib/dom";
+import { $, _$ } from "../lib/dom";
 import { createGetURL } from "../lib/helpers";
 import { url } from "../lib/url";
 
 import { AppComponent } from "../classes/Component";
 import { WindowManager } from "../classes/WindowManager";
+import { ProfileEvents } from "./events";
 
 import Post from "../classes/Post";
 import EditProfile from "../classes/windows/EditProfile";
@@ -34,6 +35,8 @@ class App extends AppComponent {
         }
 
         this.initializeWindowManager();
+
+        ProfileEvents.on("profile.update", this.reloadProfile, this);
         
         console.log(this);
     }
@@ -44,9 +47,6 @@ class App extends AppComponent {
         if (url.current(["/profile/", "/profile"])) { 
             this.bindAction('#edit', () => { this.WindowManager.display(EditProfileWindow) }) 
         };
-
-        // this function only displays the dialog in the page, remove it after testing.
-        //tests(this);
     }
 
     async getUserPosts (username: string): Promise<UserPosts> {
@@ -54,8 +54,22 @@ class App extends AppComponent {
         if (res.status === 200) return await res.json();
         return [];
     }
+
+    async reloadProfile () {
+        try {
+            const profile: API.ProfileData = await fetch("/API/profile").then(res => res.json());
+            $(".namex p").text(`@${profile.username}`);
+            $(".namex h1").text(profile.name);
+            $(".bio pre").text(profile.bio);
+            $._("img.pfp, .pfp img").do(_ => {
+                const image = _.e as HTMLImageElement;
+                const { src } = image;
+                image.src = image.src.replace(src.match(/\/(original|min|mid)\/(\w+)/i)![2], profile.picture);
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }
 }
 
 $.ready(() => new App);
-
-function tests (app: App) { app.WindowManager.display(app.tokens[0][1]); }
