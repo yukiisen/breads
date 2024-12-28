@@ -1,7 +1,7 @@
 import { Request, RequestHandler, Response } from "express";
 
 export function resError (res: Response, req: Request, code: number, message?: string) {
-    res.status(code).render('error', { url: req.url });
+    res.status(code).render('error', { url: req.url, code });
 }
 
 export function notFound (): RequestHandler {

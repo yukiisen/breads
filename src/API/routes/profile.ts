@@ -9,7 +9,11 @@ export default function ProfileAPIRoute(): RequestHandler {
     return async (req, res) => {
         try {
             const user = req.user as LoggedUser
-            const data = await getProfileData(user);
+            const [ data, err ] = await getProfileData(user);
+            if (err) {
+                res.sendStatus(404);
+                return;
+            }
 
             const resBody = {
                 username: data.username,

@@ -29,7 +29,7 @@ import serveStatic from "./middlewares/serveStatic";
 
 // other routes
 import homeRoute from "./routes/home";
-import profileRoute from "./routes/profile";
+import { UserProfileRoute, OtherProfileRoute } from "./routes/profile";
 
 // login routes
 import signup, { signupShema } from "./API/routes/signup";
@@ -102,6 +102,7 @@ passport.deserializeUser(deserializeUser);
 winston.initialize('./logs/info.log', './logs/errors.log');
 
 // Read SQL files
+QP.addFile("./SQL/globals.sql");
 QP.addFile("./SQL/login.sql");
 QP.addFile("./SQL/GitHub_Uploader.sql");
 QP.addFile("./SQL/profile.sql");
@@ -183,7 +184,8 @@ app.patch("/API/profile", isAuthenticated, validateBody(editProfileShema), EditP
 
 // Protected Routes (Require Authentication)
 app.get(['/home', '/'], isAuthenticated, homeRoute());
-app.get('/profile', isAuthenticated, profileRoute());
+app.get('/profile', isAuthenticated, UserProfileRoute());
+app.get('/profile/:username', isAuthenticated, OtherProfileRoute());
 
 app.get("/media/uploads/:type/:id/", serveMedia());
 app.get("/media/profiles/:size/:id/", serveProfilePictures());

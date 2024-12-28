@@ -28,7 +28,6 @@ declare interface BRequest<T> extends Request<ParamsDictionary, any, any, Parsed
 declare type LoggedUser = {
     id: number
     username: string
-    password: string
 }
 
 // Database Types:

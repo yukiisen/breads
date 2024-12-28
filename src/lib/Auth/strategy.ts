@@ -32,7 +32,7 @@ const Verify: VerifyFunction = async function (username, password, done) {
 export default new Strategy(Verify);
 
 export async function deserializeUser (id: number, done: (err: any, user?: false | Express.User | null | undefined) => void) {
-    type deserializeOutput = RowDataPackets<{ id: number, username: string, password: string }>
+    type deserializeOutput = RowDataPackets<{ id: number, username: string }>
 
     try {
         const [ user ] = await db.query<deserializeOutput>(query(QS.deserializeUser), [ id ]);

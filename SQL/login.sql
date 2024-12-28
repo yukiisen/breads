@@ -17,5 +17,5 @@ SELECT password, id FROM users WHERE username = ?;
 --END_QUERY
 
 --deserializeUser => QUERY:
-SELECT id, username, password FROM users WHERE id = ?;
+SELECT id, username FROM users WHERE id = ?;
 --END_QUERY

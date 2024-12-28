@@ -59,7 +59,7 @@ class App extends AppComponent {
         try {
             const profile: API.ProfileData = await fetch("/API/profile").then(res => res.json());
             $(".namex p").text(`@${profile.username}`);
-            $(".namex h1").text(profile.name);
+            $(".namex h2").text(profile.name);
             $(".bio pre").text(profile.bio);
             $._("img.pfp, .pfp img").do(_ => {
                 const image = _.e as HTMLImageElement;

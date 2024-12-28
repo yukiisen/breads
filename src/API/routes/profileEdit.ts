@@ -1,14 +1,16 @@
 import { RequestHandler } from "express";
 import { BV } from "../../middlewares/validateBody";
-import { handleProfileUpload } from "../../lib/mediaManager";
-import { _availableName } from "../nameavailable";
+
+import crypto from "crypto";
+import fs from "fs/promises";
 
 import database from "../../lib/database";
 import qp from "../../lib/sqlParser";
 import winston from "../../lib/logger";
-import crypto from "crypto";
-import fs from "fs/promises";
 import config from "../../config.json";
+
+import { handleProfileUpload } from "../../lib/mediaManager";
+import { _availableName } from "../nameavailable";
 import { uploadFile } from "../../lib/github_store";
 
 type mail = string

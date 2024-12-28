@@ -1,6 +1,6 @@
 import { $ } from "../lib/dom";
 
-export type TemplateFunction = <T extends {}>(Options: T) => string
+export type TemplateFunction = (Options: any) => string
 type Init = ReturnType<typeof $>
 type variant = { [key: string]: unknown }
 type BindingList = { Init: Init, Obj: { [key: string]: string | number }, property: string }[]
