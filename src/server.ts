@@ -7,7 +7,7 @@ import https from "https";
 import fs from "fs";
 import express from "express";
 import chalk from "chalk";
-import socketIO from "socket.io";
+// import socketIO from "socket.io";
 import passport from "passport";
 import RedisStore from "connect-redis";
 
@@ -55,21 +55,21 @@ const { env } = process;
 const DAYINMELLISECONDS = 1000 * 60 * 60 * 24;
 
 const serverOptions = {
-    key: fs.readFileSync('./certs/localhost-key.pem'),
-    cert: fs.readFileSync('./certs/localhost-cert.pem')
+  key: fs.readFileSync('./certs/localhost-key.pem'),
+  cert: fs.readFileSync('./certs/localhost-cert.pem')
 }
 
 // Initialize the redis client for session management
 // !should be re-configured with the username and password instead.
 const RedisClient = createClient({ password: env.REDISPASS });
 RedisClient.connect();
-RedisClient.ping("Test").then(e => {
-    if (winston.isInitialized()) { winston.info("Redis Client Connected!"); }
-    else {
-        winston.events.on("init", () => {
-            winston.info("Redis Client Connected!");
-        })
-    }
+RedisClient.ping("Test").then(_ => {
+  if (winston.isInitialized()) { winston.info("Redis Client Connected!"); }
+  else {
+    winston.events.on("init", () => {
+      winston.info("Redis Client Connected!");
+    })
+  }
 });
 
 // Session Configuration
@@ -82,21 +82,21 @@ RedisClient.ping("Test").then(e => {
 const sessionKey = config.SESSIONSECRETS[0];
 
 const sessionConfig: session.SessionOptions = {
-    store: new RedisStore({ client: RedisClient, prefix: "breads:" }),
-    saveUninitialized: true,
-    resave: false,
-    name: '5biza',
-    secret: sessionKey,
-    cookie: {
-        httpOnly: true,
-        maxAge: DAYINMELLISECONDS,
-        secure: true
-    },
+  store: new RedisStore({ client: RedisClient, prefix: "breads:" }),
+  saveUninitialized: true,
+  resave: false,
+  name: '5biza',
+  secret: sessionKey,
+  cookie: {
+    httpOnly: true,
+    maxAge: DAYINMELLISECONDS,
+    secure: true
+  },
 }
 
 // Passport initialize
 passport.use('localAuth', LocalStrategyInstance);
-passport.serializeUser((user, done) => done(null, (<{id: number}>user).id));
+passport.serializeUser((user, done) => done(null, (<{ id: number }>user).id));
 passport.deserializeUser(deserializeUser);
 
 winston.initialize('./logs/info.log', './logs/errors.log');
@@ -110,8 +110,8 @@ QP.addFile("./SQL/posts.sql");
 
 // Server Port and Hostname
 const httpsPort = env.PORT || 443,
-      httpPort = env.PORT2 || 80,
-      host = process.argv[3] || '127.0.0.1';
+  httpPort = env.PORT2 || 80,
+  host = process.argv[3] || '127.0.0.1';
 
 // Online Users will be saved here
 const Online: OnlineUser[] = [];
@@ -125,8 +125,8 @@ app.set('view engine', 'jade');
 
 // compress the response if It passes the 10kb size
 app.use(compression({
-    level: 9,
-    threshold: 1024 * 10
+  level: 9,
+  threshold: 1024 * 10
 }));
 
 // initialize session manager
@@ -135,9 +135,9 @@ app.use(session(sessionConfig));
 // serve static files from the "public" directory
 // Has been overriden to implement exclude functionality
 const serveStaticOptions = {
-    extensions: ["js"],
-    excludeExtentions: app.get("env") == "development"? []: ["json", "d.ts"],
-    excludePaths: app.get("env") == "development"? []: ["src", "sass"],
+  extensions: ["js"],
+  excludeExtentions: app.get("env") == "development" ? [] : ["json", "d.ts"],
+  excludePaths: app.get("env") == "development" ? [] : ["src", "sass"],
 }
 
 app.use(serveStatic('./public', serveStaticOptions));
@@ -145,9 +145,9 @@ app.use(serveStatic('./public', serveStaticOptions));
 // parse request bodies
 app.use(express.urlencoded({ extended: true, limit: "8kb" }));
 app.use(ParseJSON({
-    '/API/signup': [["POST", "3kb"]],
-    '/API/login': [["POST", "3kb"]],
-    '/API/profile': [["PATCH", config.UPLOADS.profilePictureLimit]]
+  '/API/signup': [["POST", "3kb"]],
+  '/API/login': [["POST", "3kb"]],
+  '/API/profile': [["PATCH", config.UPLOADS.profilePictureLimit]]
 }));
 
 // initialize passport for login sessions
@@ -174,7 +174,13 @@ app.get("/signup", servePage('signup'));
 app.post("/API/signup", validateBody(signupShema), signup());
 app.post("/API/login", validateBody(loginShema), login());
 app.use("/API/authed", (req, res) => { res.json({ Authenticated: req.isAuthenticated() }) });
-app.use("/API/logout", isAuthenticated, (req, res) => req.logout((err) => { if (err) { winston.error(<Error>err); res.sendStatus(500); } else res.sendStatus(200); }));
+app.use("/API/logout", isAuthenticated, (req, res) => req.logout((err) => { 
+  if (err) { 
+    winston.error(<Error>err); 
+    res.sendStatus(500); 
+  } 
+  else res.sendStatus(200); 
+}));
 
 app.get("/API/posts", postGetter());
 app.get("/API/nameavailable", availableName());
@@ -197,24 +203,24 @@ app.use(errorsHandler.notFound());
 const server = https.createServer(serverOptions, app);
 
 server.listen(+httpsPort, host, () => {
-    winston.info(`The server is listening at https://${host}:${httpsPort}`);
+  winston.info(`The server is listening at https://${host}:${httpsPort}`);
 });
 
 // Create an HTTP server to redirect missing requests
 const httpapp = express()
-                .use((req, res) => res.redirect(`https://${req.hostname}:${httpsPort}${req.url}`))
-                .listen(+httpPort, host, () => {
-                    winston.info(`The redirect server is listening at http://${host}:${httpPort}`);
-                })
+  .use((req, res) => res.redirect(`https://${req.hostname}:${httpsPort}${req.url}`))
+  .listen(+httpPort, host, () => {
+    winston.info(`The redirect server is listening at http://${host}:${httpPort}`);
+  })
 
 //io.listen(server);
 
 // catch any unrecognized error and shut the server down instead of letting the process kill itself.
 process.on("uncaughtException", (err) => {
-    winston.error(err);
-    httpapp.close();
-    server.close(() => {
-        winston.log("Server Closing Due to an internal error.", chalk.red);
-        process.exit(1);
-    });
+  winston.error(err);
+  httpapp.close();
+  server.close(() => {
+    winston.log("Server Closing Due to an internal error.", chalk.red);
+    process.exit(1);
+  });
 });
